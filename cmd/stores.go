@@ -19,12 +19,12 @@ will only get the first one.
 	
 EXAMPLE: store new store my-store`,
 	Run: func(cmd *cobra.Command, args []string) {
-		cols := args[0]
+		store := args[0]
 
 		db := internal.DB()
-		db.Collections(cols)
+		db.Store(store)
 
-		fmt.Printf("\nSuccessfully created a new store: \033[1m%s\033[0m\n", cols)
+		fmt.Printf("\nSuccessfully created a new store: \033[1m%s\033[0m\n", store)
 	},
 }
 
