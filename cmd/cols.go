@@ -71,16 +71,31 @@ The value must exist from the collection.`,
 	},
 }
 
+/*
+COMMAND:
+	store cols add ...
+*/
+var addColsCmd = &cobra.Command{
+	Use:   "add",
+	Short: "Add a value to the collection.",
+	Long: `Add a value to the collection.
+The value must exist from the collection.`,
+	Run: func(cmd *cobra.Command, args []string) {
+		fmt.Println("remove called")
+	},
+}
+
 func init() {
 	rootCmd.AddCommand(colsCmd)
 
 	/* sub-functions */
-	colsCmd.AddCommand(findColsCmd, removeColsCmd)
+	colsCmd.AddCommand(findColsCmd, removeColsCmd, addColsCmd)
 
 	/* flags */
 	colsCmd.PersistentFlags().StringVarP(&colsGroup, "group", "g", "", "the collection name / group")
-	cobra.MarkFlagRequired(findColsCmd.PersistentFlags(), "group")
-	cobra.MarkFlagRequired(removeColsCmd.PersistentFlags(), "group")
+	cobra.MarkFlagRequired(findColsCmd.InheritedFlags(), "group")
+	cobra.MarkFlagRequired(removeColsCmd.InheritedFlags(), "group")
+	cobra.MarkFlagRequired(addColsCmd.InheritedFlags(), "group")
 
 	colsCmd.Flags().BoolVar(&listGroup, "list", false, "list the current collections created")
 }

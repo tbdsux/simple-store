@@ -34,7 +34,7 @@ EXAMPLE:
 				return
 			}
 
-			fmt.Println("\nCollections:")
+			fmt.Println("\nStores:")
 			for _, i := range listStores {
 				fmt.Printf("  - %s\n", i)
 			}
@@ -92,9 +92,9 @@ func init() {
 
 	/* flags */
 	storeValuesCmd.PersistentFlags().StringVarP(&keysGroup, "group", "g", "", "the collection name / group")
-	cobra.MarkFlagRequired(updateStoreCmd.PersistentFlags(), "group")
-	cobra.MarkFlagRequired(removeStoreCmd.PersistentFlags(), "group")
-	cobra.MarkFlagRequired(addStoreCmd.PersistentFlags(), "group")
+	cobra.MarkFlagRequired(updateStoreCmd.InheritedFlags(), "group")
+	cobra.MarkFlagRequired(removeStoreCmd.InheritedFlags(), "group")
+	cobra.MarkFlagRequired(addStoreCmd.InheritedFlags(), "group")
 
 	storeValuesCmd.Flags().BoolVar(&listKeysGroup, "list", false, "list the current stores created")
 
