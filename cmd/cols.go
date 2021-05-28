@@ -8,6 +8,7 @@ package cmd
 import (
 	"fmt"
 
+	"github.com/TheBoringDude/simple-store/cmd/internal"
 	"github.com/spf13/cobra"
 )
 
@@ -18,13 +19,27 @@ var listGroup bool
 var colsCmd = &cobra.Command{
 	Use:   "cols",
 	Short: "Manage your collections.",
+	Args:  cobra.NoArgs,
 	Long: `Manage your collections.
 
 EXAMPLE: 
   store cols add https://www.google.com --group=websites
 	`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("cols called")
+		if listGroup {
+			db := internal.DB()
+			listCols := db.ListCollections()
+
+			if len(listCols) < 1 {
+				fmt.Println("\nYou currently have no collections.")
+				return
+			}
+
+			fmt.Println("\nCollections:")
+			for _, i := range listCols {
+				fmt.Printf("  - %s\n", i)
+			}
+		}
 	},
 }
 
