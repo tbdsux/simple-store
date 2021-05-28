@@ -7,6 +7,7 @@ package cmd
 
 import (
 	"fmt"
+	"log"
 
 	"github.com/TheBoringDude/simple-store/cmd/internal"
 	"github.com/spf13/cobra"
@@ -65,7 +66,7 @@ var removeColsCmd = &cobra.Command{
 	Use:   "remove",
 	Short: "Remove a value from the collection.",
 	Long: `Remove a value from the collection.
-The value must exist from the collection.`,
+The value must exist from the collection and should be exact.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("remove called")
 	},
@@ -77,11 +78,21 @@ COMMAND:
 */
 var addColsCmd = &cobra.Command{
 	Use:   "add",
+	Args:  cobra.ExactArgs(1),
 	Short: "Add a value to the collection.",
 	Long: `Add a value to the collection.
 The value must exist from the collection.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("remove called")
+		db := internal.DB()
+
+		if _, err := db.FindCollection(colsGroup); err != nil {
+			log.Fatalf("\nError! Collection: %s does not exist!\n", colsGroup)
+		}
+
+		// push the first arg
+		db.Collections(colsGroup).Push(args[0])
+
+		fmt.Printf("\nSuccessfully added item: `%s` -> group: `%s`\n", args[0], colsGroup)
 	},
 }
 
