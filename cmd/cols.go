@@ -39,13 +39,8 @@ var findColsCmd = &cobra.Command{
 	Long: `Find a value from the collection.
 It will return matching strings also not only the exact.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		iDb := internal.DB()
+		db := internal.GetCols(colsGroup)
 
-		if _, err := iDb.FindCollection(colsGroup); err != nil {
-			log.Fatalf("\nError! Collection: %s does not exist!\n", colsGroup)
-		}
-
-		db := iDb.Collections(colsGroup)
 		result := db.FindAll(args[0])
 
 		fmt.Printf("\nSearch for: %s -> group: %s\n", args[0], colsGroup)
@@ -84,11 +79,7 @@ var addColsCmd = &cobra.Command{
 	Long: `Add a value to the collection.
 The value must exist from the collection.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		db := internal.DB()
-
-		if _, err := db.FindCollection(colsGroup); err != nil {
-			log.Fatalf("\nError! Collection: %s does not exist!\n", colsGroup)
-		}
+		db := internal.GetCols(colsGroup)
 
 		var value interface{}
 		// get check value type
@@ -118,7 +109,7 @@ The value must exist from the collection.`,
 		}
 
 		// push the first arg
-		db.Collections(colsGroup).Push(value)
+		db.Push(value)
 
 		fmt.Printf("\nSuccessfully added item: `%s` -> group: `%s`\n", args[0], colsGroup)
 	},
@@ -136,7 +127,7 @@ var listColsCmd = &cobra.Command{
 	Long: `Add a value to the collection.
 The value must exist from the collection.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		db := internal.DB().Collections(colsGroup)
+		db := internal.GetCols(colsGroup)
 
 		lists := db.List()
 

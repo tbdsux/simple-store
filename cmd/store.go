@@ -39,13 +39,7 @@ var updateStoreCmd = &cobra.Command{
 	Long: `Update the value of a key from a specific store group.
 The key must exist from the store to be able to be updated.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		iDb := internal.DB()
-
-		if _, err := iDb.FindStore(keysGroup); err != nil {
-			log.Fatalf("\nError! Store: %s does not exist!\n", keysGroup)
-		}
-
-		db := iDb.Store(keysGroup)
+		db := internal.GetStore(keysGroup)
 
 		var value interface{}
 		switch updateStoreValueType {
@@ -90,13 +84,7 @@ var removeStoreCmd = &cobra.Command{
 	Long: `Remove / Delete a key from a store group.
 The key must exist from the store to be able to be removed.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		iDb := internal.DB()
-
-		if _, err := iDb.FindStore(keysGroup); err != nil {
-			log.Fatalf("\nError! Store: %s does not exist!\n", keysGroup)
-		}
-
-		db := iDb.Store(keysGroup)
+		db := internal.GetStore(keysGroup)
 
 		if err := db.Remove(args[0]); err != nil {
 			log.Fatalln(err)
@@ -121,11 +109,7 @@ The key should not already exist.
 
 EXAMPLE: simple-store store add key --value=123 --type=int --group=my-store`,
 	Run: func(cmd *cobra.Command, args []string) {
-		iDb := internal.DB()
-
-		if _, err := iDb.FindStore(keysGroup); err != nil {
-			log.Fatalf("\nError! Store: %s does not exist!\n", keysGroup)
-		}
+		db := internal.GetStore(keysGroup)
 
 		var value interface{}
 		switch addStoreValueType {
@@ -153,7 +137,6 @@ EXAMPLE: simple-store store add key --value=123 --type=int --group=my-store`,
 			log.Fatalf("Unknown argument type: %s\n", addStoreValueType)
 		}
 
-		db := iDb.Store(keysGroup)
 		if err := db.Set(args[0], value); err != nil {
 			log.Fatal(err)
 		}
@@ -173,13 +156,8 @@ var listStoreCmd = &cobra.Command{
 	Long: `Remove / Delete a key from a store group.
 The key must exist from the store to be able to be removed.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		iDb := internal.DB()
+		db := internal.GetStore(keysGroup)
 
-		if _, err := iDb.FindStore(keysGroup); err != nil {
-			log.Fatalf("\nError! Store: %s does not exist!\n", keysGroup)
-		}
-
-		db := iDb.Store(keysGroup)
 		fmt.Printf("\nValues in Store: %s\n", keysGroup)
 
 		for key, value := range db.List() {

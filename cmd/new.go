@@ -18,7 +18,7 @@ var newCmd = &cobra.Command{
 var collectionsNewCmd = &cobra.Command{
 	Use:   "collections",
 	Short: "Create a new collections group",
-	Args:  internal.ValidateArg,
+	Args:  cobra.ExactArgs(1),
 	Long: `Create a new collections group.
 
 If there are multiple args passed, it
@@ -39,7 +39,7 @@ EXAMPLE: store new collections my-collection`,
 var storeNewCmd = &cobra.Command{
 	Use:   "store",
 	Short: "Create a new store group",
-	Args:  internal.ValidateArg,
+	Args:  cobra.ExactArgs(1),
 	Long: `Create a new store group.
 
 If there are multiple args passed, it
