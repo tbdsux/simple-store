@@ -14,7 +14,6 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var listKeysGroup bool
 var keysGroup string
 
 // storeValuesCmd represents the keys command
@@ -26,22 +25,6 @@ var storeValuesCmd = &cobra.Command{
 EXAMPLE: 
   store keys add this-is-a-key --value=key-value --group=my-config
 	`,
-	Run: func(cmd *cobra.Command, args []string) {
-		if listKeysGroup {
-			db := internal.DB()
-			listStores := db.ListStores()
-
-			if len(listStores) < 1 {
-				fmt.Println("\nYou currently have no stores.")
-				return
-			}
-
-			fmt.Println("\nStores:")
-			for _, i := range listStores {
-				fmt.Printf("  - %s\n", i)
-			}
-		}
-	},
 }
 
 /*
@@ -222,7 +205,4 @@ func init() {
 	updateStoreCmd.Flags().StringVarP(&updateStoreValue, "value", "v", "", "the value of the key")
 	updateStoreCmd.Flags().StringVarP(&updateStoreValueType, "type", "t", "string", "type of the value [string | int | float | bool]")
 	updateStoreCmd.MarkFlagRequired("value")
-
-	storeValuesCmd.Flags().BoolVar(&listKeysGroup, "list", false, "list the current stores created")
-
 }

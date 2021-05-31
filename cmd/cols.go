@@ -15,7 +15,6 @@ import (
 )
 
 var colsGroup string
-var listGroup bool
 
 // colsCmd represents the cols command
 var colsCmd = &cobra.Command{
@@ -27,22 +26,6 @@ var colsCmd = &cobra.Command{
 EXAMPLE: 
   store cols add https://www.google.com --group=websites
 	`,
-	Run: func(cmd *cobra.Command, args []string) {
-		if listGroup {
-			db := internal.DB()
-			listCols := db.ListCollections()
-
-			if len(listCols) < 1 {
-				fmt.Println("\nYou currently have no collections.")
-				return
-			}
-
-			fmt.Println("\nCollections:")
-			for _, i := range listCols {
-				fmt.Printf("  - %s\n", i)
-			}
-		}
-	},
 }
 
 /*
@@ -181,8 +164,6 @@ func init() {
 	cobra.MarkFlagRequired(removeColsCmd.InheritedFlags(), "group")
 	cobra.MarkFlagRequired(addColsCmd.InheritedFlags(), "group")
 	cobra.MarkFlagRequired(listColsCmd.InheritedFlags(), "group")
-
-	colsCmd.Flags().BoolVar(&listGroup, "list", false, "list the current collections created")
 
 	listColsCmd.Flags().BoolVar(&listColsOneline, "oneline", false, "print each values in each line")
 	addColsCmd.Flags().StringVarP(&addColsArgType, "type", "t", "string", "the type of the argument [string | int | float | bool]")
