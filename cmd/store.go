@@ -180,9 +180,12 @@ The key must exist from the store to be able to be removed.`,
 		}
 
 		db := iDb.Store(keysGroup)
+		fmt.Printf("\nValues in Store: %s\n", keysGroup)
 
-		fmt.Println(db)
-		// TODO: minidb has no function `Store.List()`
+		for key, value := range db.List() {
+			fmt.Printf("  - %s : %v\n", key, value)
+		}
+
 	},
 }
 
