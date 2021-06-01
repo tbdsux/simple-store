@@ -7,6 +7,8 @@ import (
 	"github.com/spf13/cobra"
 )
 
+const Version = "0.0.1"
+
 var showKeysGroup bool
 var listGroup bool
 
@@ -14,12 +16,14 @@ var listGroup bool
 var rootCmd = &cobra.Command{
 	Use:   "simple-store",
 	Short: "Store Stuff from the CLI.",
-	Long: `Manage collections, configs, stores from your CLI.
+	Long: fmt.Sprintf(`simple-store v%s
+
+Manage collections, configs, stores from your CLI.
 	
 Maybe you are comfortable in using your terminal than a gui.
 Store and manage stuff from your cli or terminal.
 
-`,
+	`, Version),
 	Run: func(cmd *cobra.Command, args []string) {
 		// show help if the --show* flag is not defined
 		if !listGroup && !showKeysGroup {
