@@ -61,9 +61,15 @@ var removeColsCmd = &cobra.Command{
 	Long: `Remove a value from the collection.
 The value must exist from the collection and should be exact.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("remove called")
-		// THIS IS A TODO:
-		// `minidb` has no function Collections.Remove() yet
+		// TODO: support removing of multiple values
+
+		db := internal.GetCols(colsGroup)
+
+		if err := db.Remove(args[0]); err != nil {
+			log.Fatalf("Error trying to remove value: %s from collections: %s\n", args[0], colsGroup)
+		}
+
+		fmt.Printf("\nSuccessfully removed value: %s from collections: %s\n", args[0], colsGroup)
 	},
 }
 

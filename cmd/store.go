@@ -87,10 +87,10 @@ The key must exist from the store to be able to be removed.`,
 		db := internal.GetStore(keysGroup)
 
 		if err := db.Remove(args[0]); err != nil {
-			log.Fatalln(err)
+			log.Fatalf("Error trying to remove key: %s from store: %s\n", args[0], keysGroup)
 		}
 
-		fmt.Printf("\nSuccessfully removed key: %s from group: %s\n", args[0], keysGroup)
+		fmt.Printf("\nSuccessfully removed key: %s from store: %s\n", args[0], keysGroup)
 	},
 }
 
