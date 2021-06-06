@@ -29,6 +29,11 @@ EXAMPLE: store new collections my-collection`,
 		cols := args[0]
 
 		db := internal.DB()
+		if _, err := db.FindCollection(cols); err == nil {
+			fmt.Printf("\nCollection: \033[1m%s\033[0m, already exists!\n", cols)
+			return
+		}
+
 		db.Collections(cols)
 
 		fmt.Printf("\nSuccessfully created a new collection: \033[1m%s\033[0m\n", cols)
@@ -50,6 +55,11 @@ EXAMPLE: store new store my-store`,
 		store := args[0]
 
 		db := internal.DB()
+		if _, err := db.FindStore(store); err == nil {
+			fmt.Printf("\nStore: \033[1m%s\033[0m, already exists!\n", store)
+			return
+		}
+
 		db.Store(store)
 
 		fmt.Printf("\nSuccessfully created a new store: \033[1m%s\033[0m\n", store)
