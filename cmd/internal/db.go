@@ -33,7 +33,7 @@ func GetCols(key string) *minidb.MiniCollections {
 func GetStore(key string) *minidb.MiniStore {
 	iDb := DB()
 
-	if _, err := iDb.FindCollection(key); err != nil {
+	if _, err := iDb.FindStore(key); err != nil {
 		log.Fatalf("Stores key: `%s` does not exist!", key)
 	}
 
