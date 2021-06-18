@@ -11,12 +11,18 @@ import (
 var newCmd = &cobra.Command{
 	Use:   "new",
 	Short: "Create a new group.",
-	Long:  `Create a new group.`,
+	Long: `Create a new group.
+	
+EXAMPLE:
+  - collections
+     :# simple-store new cols my-collection
+  - store
+     :# simple-store new store my-store`,
 }
 
 // collectionsCmd represents the collections command
 var collectionsNewCmd = &cobra.Command{
-	Use:   "collections",
+	Use:   "cols",
 	Short: "Create a new collections group",
 	Args:  cobra.ExactArgs(1),
 	Long: `Create a new collections group.
